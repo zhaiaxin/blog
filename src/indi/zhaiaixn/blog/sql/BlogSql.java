@@ -9,13 +9,17 @@ package indi.zhaiaixn.blog.sql;
 public class BlogSql {
 
     //新增一篇博客
-    public static String newBlog = "INSERT INTO t_blog (title,content,category) VALUES(?,?,?)";
+    public static String newBlog = "INSERT INTO t_blog (title,abstracts,content,category) VALUES(?,?,?,?)";
     //根据id修改博客
-    public static String updateBlog = "UPDATE t_blog SET title = ?,content = ?,category = ? WHERE id =?";
+    public static String updateBlog = "UPDATE t_blog SET title = ?,abstracts = ?,content = ?,category = ? WHERE id =?";
     //根据id删除博客
     public static String delBlog = "DELETE FROM t_blog WHERE id = ?";
     //根据title查找博客
     public static String queryByTitle = "SELECT * FROM t_blog WHERE title = ?";
+    //列出所有的博客
+    public static String listAll = "SELECT * FROM t_blog";
+    //根据分类查找博客
+    public static String listByCategory = "SELECT * FROM t_blog WHERE category = ?";
 
 
 }

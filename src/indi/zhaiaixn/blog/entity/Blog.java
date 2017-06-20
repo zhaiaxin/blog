@@ -5,6 +5,7 @@ public class Blog {
   private Long id;
   private String title;
   private String content;
+  private String abstracts;
   private String category;
   private java.sql.Timestamp created_time;
   private java.sql.Timestamp last_modified_time;
@@ -31,6 +32,14 @@ public class Blog {
 
   public void setContent(String content) {
     this.content = content;
+  }
+
+  public String getAbstracts() {
+    return abstracts;
+  }
+
+  public void setAbstracts(String abstracts) {
+    this.abstracts = abstracts;
   }
 
   public String getCategory() {
@@ -62,6 +71,7 @@ public class Blog {
     return "Blog{" +
             "id=" + id +
             ", title='" + title + '\'' +
+            ", abstracts='" + abstracts + '\'' +
             ", content='" + content + '\'' +
             ", category='" + category + '\'' +
             ", created_time=" + created_time +

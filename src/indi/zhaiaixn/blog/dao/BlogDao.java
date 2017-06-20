@@ -2,6 +2,8 @@ package indi.zhaiaixn.blog.dao;
 
 import indi.zhaiaixn.blog.entity.Blog;
 
+import java.util.List;
+
 /**
  * BlogDao
  *
@@ -30,6 +32,19 @@ public interface BlogDao {
      * @return
      */
     public Blog queryByTitle(String title);
+
+    /**
+     * 列出所有的博客
+     * @return
+     */
+    public List<Blog> listAll();
+
+    /**
+     * 根据分类查找博客
+     * @param category
+     * @return
+     */
+    public List<Blog> listByCategory(String category);
 
 
 }
