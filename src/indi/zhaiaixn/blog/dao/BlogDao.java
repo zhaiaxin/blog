@@ -31,7 +31,7 @@ public interface BlogDao {
      * @param title
      * @return
      */
-    public Blog queryByTitle(String title);
+    public List<Blog> queryByTitle(String title);
 
     /**
      * 列出所有的博客
@@ -45,6 +45,12 @@ public interface BlogDao {
      * @return
      */
     public List<Blog> listByCategory(String category);
+
+    /**
+     * 列出所有的目录
+     * @return
+     */
+    public List listCategory();
 
 
 }

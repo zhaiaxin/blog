@@ -49,9 +49,11 @@ public class BlogDaoImpl implements BlogDao{
             if(pstmt.executeUpdate() > 0){
                 flag = true;
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        connPool.release(null,pstmt,connection);
         return flag;
     }
 
@@ -68,22 +70,26 @@ public class BlogDaoImpl implements BlogDao{
             if (pstmt.executeUpdate() > 0){
                 flag = true;
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        connPool.release(null,pstmt,connection);
         return flag;
     }
 
 
-    public Blog queryByTitle(String title){
+    public List<Blog> queryByTitle(String title){
 
         connection = null;
         PreparedStatement pstmt = null;
         Blog blog = null;
+        List<Blog> blogList = new ArrayList<Blog>();
         try{
+
             this.connection = connPool.getConnection();
-            pstmt = connection.prepareStatement(BlogSql.queryByTitle);
-            pstmt.setString(1,title);
+            pstmt = connection.prepareStatement("SELECT * FROM t_blog WHERE title LIKE '%" + title + "%'");
+//            pstmt.setString(1,title);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()){
                 blog = new Blog();
@@ -92,11 +98,13 @@ public class BlogDaoImpl implements BlogDao{
                 blog.setAbstracts(rs.getString("abstracts"));
                 blog.setContent(rs.getString("content"));
                 blog.setCategory(rs.getString("category"));
+                blogList.add(blog);
             }
+            connPool.release(rs,pstmt,connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return blog;
+        return blogList;
     }
 
 
@@ -120,6 +128,7 @@ public class BlogDaoImpl implements BlogDao{
                 blog.setCategory(rs.getString("category"));
                 blogList.add(blog);
             }
+            connPool.release(rs,pstmt,connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -147,9 +156,29 @@ public class BlogDaoImpl implements BlogDao{
                 blog.setCategory(rs.getString("category"));
                 blogList.add(blog);
             }
+            connPool.release(rs,pstmt,connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return blogList;
+    }
+
+    public List listCategory(){
+
+        List categoryList = new ArrayList<Blog>();
+        connection = null;
+        PreparedStatement pstmt = null;
+        try{
+            this.connection = connPool.getConnection();
+            pstmt = connection.prepareStatement(BlogSql.listCategory);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()){
+                categoryList.add(rs.getString("category"));
+            }
+            connPool.release(rs,pstmt,connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return categoryList;
     }
 }

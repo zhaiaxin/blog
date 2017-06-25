@@ -1,5 +1,7 @@
-
+<%@ page import="indi.zhaiaixn.blog.util.WebContents" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
     <title>首页</title>
@@ -10,9 +12,9 @@
 <div id="menu-wrapper">
     <div id="menu">
         <ul>
-            <li class="current_page_item"><a href="#">Blog</a></li>
+            <li class="current_page_item"><a href="/BlogServlet?state=listBlog">Blog</a></li>
             <li><a href="#">About</a></li>
-            <li><a href="#">GitHub</a></li>
+            <li><a href="https://github.com/zhaiaxin">GitHub</a></li>
         </ul>
     </div>
     <!-- end #menu -->
@@ -37,9 +39,9 @@
                         <li>
                             <h2>Search Here:</h2>
                             <div id="search" >
-                                <form method="get" action="#">
+                                <form action="<%=WebContents.queryBlog%>" method="post">
                                     <div>
-                                        <input type="text" name="s" id="search-text" value="" />
+                                        <input type="text" name="title" id="search-text" placeholder="请输入博客标题" />
                                         <input type="submit" id="search-submit" value="" />
                                     </div>
                                 </form>
@@ -47,43 +49,34 @@
                             <div style="clear: both;">&nbsp;</div>
                         </li>
 
+
                         <li>
                             <h2>Categories</h2>
                             <ul>
-                                <li><a href="#">Aliquam libero</a></li>
-                                <li><a href="#">Consectetuer adipiscing elit</a></li>
-                                <li><a href="#">Metus aliquam pellentesque</a></li>
-                                <li><a href="#">Suspendisse iaculis mauris</a></li>
-                                <li><a href="#">Urnanet non molestie semper</a></li>
-                                <li><a href="#">Proin gravida orci porttitor</a></li>
+                                <c:forEach items="${categoryList}" var="category">
+                                <li><a href="<%=WebContents.listByCategory%>&category=${category}">${category}</a></li>
+                                </c:forEach>
                             </ul>
                         </li>
+
                     </ul>
                 </div>
+
                 <!-- end #sidebar -->
+            <c:forEach items="${blogList}" var="blog">
                 <div id="content">
-                    <div class="post" style="width: 840px">
-                        <h2 class="title"><a href="#">Welcome to heavenly bliss!</a></h2>
-                        <p class="meta"><span class="date">May 15, 2013</span>
+                    <div class="post" style="width: 762px">
+                        <h2 class="title"><a href="<%=WebContents.toDetail%>&title=${blog.title}">${blog.title}</a></h2>
+                        <p class="meta"><span class="date">${blog.last_modified_time}</span>
                         <div style="clear: both;">&nbsp;</div>
                         <div class="entry">
-                            <p>This is <strong>Heavenly Bliss</strong>, a free, fully standards-compliant CSS template designed by <a href="http://www.freecsstemplates.org/" rel="nofollow">FreeCSSTemplates.org</a>.  The photo used in this template is from <a href="http://fotogrph.com/">Fotogrph</a>.  This free template is released under a <a href="http://creativecommons.org/licenses/by/2.5/">Creative Commons Attributions 2.5</a> license, so you’re pretty much free to do whatever you want with it (even use it commercially) provided you keep the links in the footer intact. Aside from that, have fun with it :)</p>
-                            <p>Sed lacus. Donec lectus. Nullam pretium nibh ut turpis. Nam bibendum. In nulla tortor, elementum ipsum. Proin imperdiet est. Phasellus dapibus semper urna. Pellentesque ornare, orci in felis. Donec ut ante. In id eros. Suspendisse lacus turpis, cursus egestas at sem.</p>
-                            <p class="links"><a href="#" class="button">Nullam pretium nibh ut turpis</a></p>
-                        </div>
-                    </div>
-                    <div class="post" style="width: 840px">
-                        <h2 class="title"><a href="#">Welcome to heavenly bliss!</a></h2>
-                        <p class="meta"><span class="date">May 15, 2013</span>
-                        <div style="clear: both;">&nbsp;</div>
-                        <div class="entry">
-                            <p>This is <strong>Heavenly Bliss</strong>, a free, fully standards-compliant CSS template designed by <a href="http://www.freecsstemplates.org/" rel="nofollow">FreeCSSTemplates.org</a>.  The photo used in this template is from <a href="http://fotogrph.com/">Fotogrph</a>.  This free template is released under a <a href="http://creativecommons.org/licenses/by/2.5/">Creative Commons Attributions 2.5</a> license, so you’re pretty much free to do whatever you want with it (even use it commercially) provided you keep the links in the footer intact. Aside from that, have fun with it :)</p>
-                            <p>Sed lacus. Donec lectus. Nullam pretium nibh ut turpis. Nam bibendum. In nulla tortor, elementum ipsum. Proin imperdiet est. Phasellus dapibus semper urna. Pellentesque ornare, orci in felis. Donec ut ante. In id eros. Suspendisse lacus turpis, cursus egestas at sem.</p>
-                            <p class="links"><a href="#" class="button">Nullam pretium nibh ut turpis</a></p>
+                            ${blog.abstracts}
+                            <p class="links"><a href="<%=WebContents.toDetail%>&title=${blog.title}" class="button">查看更多</a></p>
                         </div>
                     </div>
                     <div style="clear: both;">&nbsp;</div>
                 </div>
+            </c:forEach>
                 <!-- end #content -->
 
 
