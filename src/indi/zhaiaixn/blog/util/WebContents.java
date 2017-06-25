@@ -20,6 +20,8 @@ public class WebContents {
     public static final String listByCategory = "/BlogServlet?state=listByCategory";
     //博客详情
     public static final String toDetail = "/BlogServlet?state=toDetail";
+    //博客删除
+    public static final String delBlog = "/BlogServlet?state=delBlog";
 
 
 }

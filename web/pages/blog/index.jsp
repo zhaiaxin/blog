@@ -66,7 +66,7 @@
             <c:forEach items="${blogList}" var="blog">
                 <div id="content">
                     <div class="post" style="width: 762px">
-                        <h2 class="title"><a href="<%=WebContents.toDetail%>&title=${blog.title}">${blog.title}</a></h2>
+                        <h2 class="title"><a href="<%=WebContents.toDetail%>&title=${blog.title}">${blog.title}</a></h2><a href="<%=WebContents.delBlog%>&id=${blog.id}">删除</a>
                         <p class="meta"><span class="date">${blog.last_modified_time}</span>
                         <div style="clear: both;">&nbsp;</div>
                         <div class="entry">
