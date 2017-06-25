@@ -8,7 +8,7 @@ Released for free under a Creative Commons Attribution 2.5 License
 body {
     margin: 0;
     padding: 0;
-    background: rgba(0,0,0,.03) url(images/bg01.png) repeat;
+    background: rgba(0,0,0,.03) url(../images/bg01.png) repeat;
     font-family: 'Open Sans', sans-serif;
     font-size: 13px;
     color: #3B3B3B;
@@ -208,7 +208,7 @@ a:hover {
 
 #content {
     float: left;
-    width: 535px;
+    width: 800px;
     padding-top: 50px;
     background: #FFF;
     border: 1px solid rgba(0,0,0,.05);

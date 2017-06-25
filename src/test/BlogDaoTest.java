@@ -1,5 +1,6 @@
 package test;
 
+import indi.zhaiaixn.blog.dao.BlogDao;
 import indi.zhaiaixn.blog.dao.impl.BlogDaoImpl;
 import indi.zhaiaixn.blog.entity.Blog;
 import org.junit.Test;
@@ -12,7 +13,7 @@ import org.junit.Test;
  */
 public class BlogDaoTest {
 
-    BlogDaoImpl blogDao = new BlogDaoImpl();
+    BlogDao blogDao = new BlogDaoImpl();
 
     @Test
     public void testNewOrUpdateBlog(){
@@ -33,7 +34,7 @@ public class BlogDaoTest {
 
     @Test
     public void testQueryByTitle(){
-        System.out.println(blogDao.queryByTitle("java从入门到放弃"));
+        System.out.println(blogDao.queryByTitle("java"));
     }
 
     @Test
@@ -44,5 +45,10 @@ public class BlogDaoTest {
     @Test
     public void testListByCategory(){
         System.out.println(blogDao.listByCategory("java"));
+    }
+
+    @Test
+    public void testListCategory(){
+        System.out.println(blogDao.listCategory());
     }
 }

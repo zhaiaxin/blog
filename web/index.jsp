@@ -11,6 +11,6 @@
     <title>$Title$</title>
   </head>
   <body>
-  $END$
+  <a href="/BlogServlet?state=listBlog">点击此处</a>
   </body>
 </html>
