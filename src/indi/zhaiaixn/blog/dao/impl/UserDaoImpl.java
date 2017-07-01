@@ -37,8 +37,8 @@ public class UserDaoImpl implements UserDao{
             pstmt = conn.prepareStatement(UserSql.newUser);
             pstmt.setString(1,user.getUsername());
             pstmt.setString(2,user.getPassword());
-            pstmt.setString(3,user.getIntroduction());
-            pstmt.setString(4,user.getPhoto());
+//            pstmt.setString(3,user.getIntroduction());
+//            pstmt.setString(4,user.getPhoto());
             if(pstmt.executeUpdate()>0){
                 flag = true;
             }
@@ -69,8 +69,8 @@ public class UserDaoImpl implements UserDao{
                 user.setId(rs.getLong("id"));
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
-                user.setIntroduction(rs.getString("introduction"));
-                user.setPhoto(rs.getString("photo"));
+//                user.setIntroduction(rs.getString("introduction"));
+//                user.setPhoto(rs.getString("photo"));
             }
             connPool.release(rs,pstmt,conn);
         } catch (SQLException e) {

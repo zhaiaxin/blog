@@ -19,8 +19,8 @@ public class UserDaoTest {
          User user = new User();
          user.setUsername("axin");
          user.setPassword("87654321");
-         user.setIntroduction("胆大心细");
-         user.setPhoto("axin.jpg");
+//         user.setIntroduction("胆大心细");
+//         user.setPhoto("axin.jpg");
          System.out.println(userDao.newUser(user));
      }
 

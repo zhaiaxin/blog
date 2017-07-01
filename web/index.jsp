@@ -1,4 +1,4 @@
-<%--
+<%@ page import="indi.zhaiaixn.blog.util.WebContents" %><%--
   Created by IntelliJ IDEA.
   User: Joiner-Axin
   Date: 2017/6/13
@@ -11,6 +11,6 @@
     <title>$Title$</title>
   </head>
   <body>
-  <a href="/BlogServlet?state=listBlog">点击此处</a>
+  <a href="<%=WebContents.toLogin%>">点击此处</a>
   </body>
 </html>

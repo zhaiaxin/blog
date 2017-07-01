@@ -5,7 +5,7 @@ package indi.zhaiaixn.blog.sql;
  */
 public class UserSql {
     //添加用户
-    public static String newUser = "INSERT INTO t_user (username,password,introduction,photo) VALUES(?,?,?,?)";
+    public static String newUser = "INSERT INTO t_user (username,password) VALUES(?,?)";
     //根据用户名查找用户
     public static String queryByUsername = "SELECT * FROM t_user WHERE username = ?";
 }

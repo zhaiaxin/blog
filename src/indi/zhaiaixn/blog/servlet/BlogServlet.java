@@ -3,6 +3,8 @@ package indi.zhaiaixn.blog.servlet;
 import indi.zhaiaixn.blog.dao.BlogDao;
 import indi.zhaiaixn.blog.dao.impl.BlogDaoImpl;
 import indi.zhaiaixn.blog.entity.Blog;
+import indi.zhaiaixn.blog.sql.BlogSql;
+import indi.zhaiaixn.blog.util.ConnPool;
 import indi.zhaiaixn.blog.util.WebContents;
 
 import javax.servlet.RequestDispatcher;
@@ -11,6 +13,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -58,6 +64,9 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
             case "toDetail":
                 toDetail(request,response);
                 break;
+            case "listBlogPaging":
+                listBlogPaging(request,response);
+                break;
 
         }
 
@@ -73,6 +82,7 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
 //        }
 
         Blog blog = new Blog();
+        blog.setId(Integer.parseInt(request.getParameter("id")));
         blog.setTitle(request.getParameter("title"));
         blog.setAbstracts(request.getParameter("abstracts"));
         blog.setContent(request.getParameter("content"));
@@ -81,16 +91,13 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
         BlogDao blogDao = new BlogDaoImpl();//实例化接口和实例化接口的实现？？？？？？？
         RequestDispatcher rd = null;
 
-        int id = Integer.parseInt(request.getParameter("id"));
+//        int id = Integer.parseInt(request.getParameter("id"));
 
-        if(id == 0 && blogDao.newOrUpdateBlog(blog)){
-            rd = request.getRequestDispatcher(WebContents.newBlog);
-            rd.forward(request,response);
-        }else if(id != 0 && blogDao.newOrUpdateBlog(blog)){
-            rd = request.getRequestDispatcher(WebContents.updateBlog);
+        if(blogDao.newOrUpdateBlog(blog)){
+            rd = request.getRequestDispatcher(WebContents.listBlog);
             rd.forward(request,response);
         }else {
-            rd = request.getRequestDispatcher(WebContents.listBlog);
+            rd = request.getRequestDispatcher(WebContents.toAdd);
             request.setAttribute("msg","新增或修改博客失败！");
             rd.forward(request,response);
         }
@@ -171,5 +178,98 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
         rd.forward(request,response);
 
     }
+
+    private void listBlogPaging(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
+
+//        // 获得当前页码数
+//        String pageIndex = request.getParameter("pageIndex");
+//        //获得每页显示的数量
+//        String pageSize=request.getParameter("pageSize");
+//
+//        int totalPage = 0;
+//
+//        List<Blog> blogList = new ArrayList<>();
+//        BlogDao blogDao = new BlogDaoImpl();//实例化接口和实例化接口的实现？？？？？？？
+//        blogList = blogDao.listAllPageing(pageIndex,pageSize,totalPage);
+//
+////        request.setAttribute("pageIndex", Long.parseLong(pageIndex));
+////        request.setAttribute("pageSize", Long.parseLong(pageSize));
+////        request.setAttribute("totalPage",totalPage);
+//
+//        RequestDispatcher rd = null;
+//        rd = request.getRequestDispatcher("/pages/blog/index.jsp");
+//        rd.forward(request,response);
+
+// 获得当前页码数
+        String pageIndex=request.getParameter("pageIndex");
+
+        //获得每页显示的数量
+        String pageSize=request.getParameter("pageSize");
+        if(pageIndex==null||"".equals(pageIndex.trim())){//trim()去掉字符串首尾的空格
+            pageIndex="1";
+        }
+
+        if(pageSize==null||"".equals(pageSize.trim())){
+            pageSize="10";
+        }
+        int start =(Integer.parseInt(pageIndex)-1)*Integer.parseInt(pageSize);
+        //数据库中所有数据的数量
+        long count=0;
+        //总的页数
+        long totalPage=0;
+
+        List<Blog> blogList = new ArrayList<Blog>();
+
+        try{
+            Connection connection = ConnPool.getConnection();
+            PreparedStatement pstmt = connection.prepareStatement(BlogSql.countBlog);
+
+            String countSLQ="select count(1) as count from cms_category";//1代表这个查询的表里的第一个字段id
+
+            ResultSet rsCount = pstmt.executeQuery();
+            if(rsCount.next()){
+              count = rsCount.getInt("count");
+            }
+
+            totalPage=count/Integer.parseInt(pageSize);
+
+            totalPage = count%Integer.parseInt(pageSize)>0?(totalPage+1):totalPage;
+
+
+
+            pstmt = connection.prepareStatement(BlogSql.listBlogPageing);
+            pstmt.setInt(1,start);
+            pstmt.setInt(2,Integer.parseInt(pageSize));
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()){
+
+                Blog blog = new Blog();
+                blog.setId(rs.getInt("id"));
+                blog.setTitle(rs.getString("title"));
+                blog.setAbstracts(rs.getString("abstracts"));
+                blog.setContent(rs.getString("content"));
+                blog.setCategory(rs.getString("category"));
+                blogList.add(blog);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        BlogDao blogDao = new BlogDaoImpl();
+        List categoryList = blogDao.listCategory();
+        request.setAttribute("categoryList",categoryList);
+
+        request.setAttribute("pageIndex", Long.parseLong(pageIndex));
+        request.setAttribute("totalPage",totalPage);
+
+        request.setAttribute("blogList", blogList);
+
+        RequestDispatcher rd = null;
+        rd = request.getRequestDispatcher("/pages/blog/index.jsp");
+        rd.forward(request,response);
+
+    }
+
 
 }

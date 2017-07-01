@@ -24,7 +24,7 @@ public interface BlogDao {
      * @param id
      * @return
      */
-    public boolean delBlog(long id);
+    public boolean delBlog(int id);
 
     /**
      * 根据标题查找博客
@@ -51,6 +51,12 @@ public interface BlogDao {
      * @return
      */
     public List listCategory();
+
+//    /**
+//     * 分页展示博客
+//     * @return
+//     */
+//    public List<Blog> listAllPageing(String pageIndex,String pageSize,int totalPage);
 
 
 }

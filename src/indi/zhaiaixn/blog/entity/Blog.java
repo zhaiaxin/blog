@@ -2,7 +2,7 @@ package indi.zhaiaixn.blog.entity;
 
 public class Blog {
 
-  private Long id;
+  private int id;
   private String title;
   private String content;
   private String abstracts;
@@ -10,11 +10,11 @@ public class Blog {
   private java.sql.Timestamp created_time;
   private java.sql.Timestamp last_modified_time;
 
-  public Long getId() {
+  public int getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(int id) {
     this.id = id;
   }
 

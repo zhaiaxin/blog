@@ -1,5 +1,6 @@
 <%@ page import="indi.zhaiaixn.blog.util.WebContents" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="test"%><%--uri属性确定标签库的位置，prefix属性指定标签库的前缀--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -7,6 +8,35 @@
     <title>首页</title>
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700|Archivo+Narrow:400,700" rel="stylesheet" type="text/css">
     <link href="../../resources/css/style.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="../../resources/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
+    <style>
+        .pager{
+            float: right;
+            width: 60%;
+            text-align: center;
+        }
+        .box{
+            position: relative;
+            top: 24px;
+            float: right;
+            font-size: 14px;
+            color: #999;
+            vertical-align: bottom;
+        }
+        .box i{
+            margin-right: 5px;
+        }
+        .box a{
+            display: inline-block;
+            margin-right: 15px;
+            text-decoration: none;
+            color: #999;
+        }
+        .box a:hover{
+            text-decoration: none;
+            color: #999;
+        }
+    </style>
 </head>
 <body>
 <div id="menu-wrapper">
@@ -64,21 +94,28 @@
 
                 <!-- end #sidebar -->
             <c:forEach items="${blogList}" var="blog">
-                <div id="content">
+                <div class="content">
                     <div class="post" style="width: 762px">
-                        <h2 class="title"><a href="<%=WebContents.toDetail%>&title=${blog.title}">${blog.title}</a></h2><a href="<%=WebContents.delBlog%>&id=${blog.id}">删除</a>
+                        <h2 class="title">
+                            <a href="<%=WebContents.toDetail%>&title=${blog.title}">${blog.title}</a>
+                            <div class="box">
+                                <i class="fa fa-bell-o"></i><a href="javascript:;">2017-01-01 13：30</a>
+                                <i class="fa fa-pencil"></i><a href="javascript:;">编辑</a>
+                                <i class="fa fa-close"></i><a href="<%=WebContents.delBlog%>&id=${blog.id}">删除</a>
+                            </div>
+
+                        </h2>
                         <p class="meta"><span class="date">${blog.last_modified_time}</span>
-                        <div style="clear: both;">&nbsp;</div>
+
                         <div class="entry">
                             ${blog.abstracts}
-                            <p class="links"><a href="<%=WebContents.toDetail%>&title=${blog.title}" class="button">查看更多</a></p>
                         </div>
                     </div>
-                    <div style="clear: both;">&nbsp;</div>
+
                 </div>
             </c:forEach>
                 <!-- end #content -->
-
+                <test:page pagerRange="2" pageSize="${pageSize}" totalPage="${totalPage}" curIndex="${pageIndex}" formId="queryForm"></test:page>
 
                 <div style="clear: both;">&nbsp;</div>
             </div>

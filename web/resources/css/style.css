@@ -206,12 +206,13 @@ a:hover {
 
 /* Content */
 
-#content {
-    float: left;
+.content {
+    float: right;
     width: 800px;
-    padding-top: 50px;
+    margin-bottom: 50px;
+    padding-top: 20px;
     background: #FFF;
-    border: 1px solid rgba(0,0,0,.05);
+    border: 1px solid #505050;
     box-shadow: 0px 0px 0px 10px rgba(0,0,0,0.03);
 }
 
@@ -295,7 +296,7 @@ a:hover {
 }
 
 #sidebar {
-    float: left;
+    display: inline-block;
     width: 230px;
     margin-right: 30px;
     padding: 40px 30px 0px 30px;
