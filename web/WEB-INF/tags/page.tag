@@ -73,9 +73,9 @@
                 type="button" id="gotoBtn" onclick="gotoPageByBtn()" value="GO" /></td>
         <td class="input_li">每页: <select id="p_pageSizeSelect"
                                          onchange="gotoPage(<%=curIndex%>)">
-            <option value="5" <c:if test="${pageSize==10}">selected</c:if>>10条</option>
-            <option value="10" <c:if test="${pageSize==20}">selected</c:if>>20条</option>
-            <option value="25" <c:if test="${pageSize==50}">selected</c:if>>50条</option>
+            <option value="3" <c:if test="${pageSize==3}">selected</c:if>>3条</option>
+            <option value="5" <c:if test="${pageSize==5}">selected</c:if>>5条</option>
+            <option value="7" <c:if test="${pageSize==7}">selected</c:if>>7条</option>
         </select>
         </td>
     </tr>

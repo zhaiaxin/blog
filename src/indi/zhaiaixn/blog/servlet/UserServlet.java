@@ -61,6 +61,8 @@ public class UserServlet extends HttpServlet {
             rd.forward(request,response);
 
         }else if(user.getPassword().equals(password)){
+            HttpSession session = request.getSession();
+            session.setAttribute("user",user);
             rd = request.getRequestDispatcher(WebContents.listBlogPaging);
             rd.forward(request,response);
 

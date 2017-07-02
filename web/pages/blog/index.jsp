@@ -6,7 +6,6 @@
 <html>
 <head>
     <title>首页</title>
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700|Archivo+Narrow:400,700" rel="stylesheet" type="text/css">
     <link href="../../resources/css/style.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="../../resources/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
     <style>
@@ -69,7 +68,7 @@
                         <li>
                             <h2>Search Here:</h2>
                             <div id="search" >
-                                <form action="<%=WebContents.queryBlog%>" method="post">
+                                <form action="<%=WebContents.listBlogPaging%>" method="post">
                                     <div>
                                         <input type="text" name="title" id="search-text" placeholder="请输入博客标题" />
                                         <input type="submit" id="search-submit" value="" />
@@ -84,7 +83,7 @@
                             <h2>Categories</h2>
                             <ul>
                                 <c:forEach items="${categoryList}" var="category">
-                                <li><a href="<%=WebContents.listByCategory%>&category=${category}">${category}</a></li>
+                                <li><a href="<%=WebContents.listBlogPaging%>&category=${category}">${category}</a></li>
                                 </c:forEach>
                             </ul>
                         </li>
@@ -100,8 +99,10 @@
                             <a href="<%=WebContents.toDetail%>&title=${blog.title}">${blog.title}</a>
                             <div class="box">
                                 <i class="fa fa-bell-o"></i><a href="javascript:;">2017-01-01 13：30</a>
-                                <i class="fa fa-pencil"></i><a href="javascript:;">编辑</a>
+                                <c:if test="${sessionScope.user} != null">
+                                <i class="fa fa-pencil"></i><a href="<%=WebContents.toAddOrUpdate%>&id=${blog.title};">编辑</a>
                                 <i class="fa fa-close"></i><a href="<%=WebContents.delBlog%>&id=${blog.id}">删除</a>
+                                </c:if>
                             </div>
 
                         </h2>

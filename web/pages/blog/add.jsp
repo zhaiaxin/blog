@@ -1,4 +1,9 @@
-<%@ page import="indi.zhaiaixn.blog.util.WebContents" %><%--
+<%@ page import="indi.zhaiaixn.blog.util.WebContents" %>
+<%@ page import="indi.zhaiaixn.blog.entity.Blog" %>
+<%@ page import="indi.zhaiaixn.blog.dao.BlogDao" %>
+<%@ page import="indi.zhaiaixn.blog.dao.impl.BlogDaoImpl" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: Joiner-Axin
   Date: 2017/7/1
@@ -11,7 +16,6 @@
     <title>写博客</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/editormd/examples/css/style.css" />
     <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/editormd/css/editormd.css" />
-    <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
     <style>
         .title{
             display: inline-block;
@@ -40,6 +44,11 @@
     </style>
 </head>
 <body>
+    <%
+        String title = request.getParameter("title");
+        BlogDao blogDao = new BlogDaoImpl();
+        List<Blog> blogList = blogDao.queryByTitle(title);
+    %>
 <div id="layout">
 <form action="<%=WebContents.newOrUpdateBlog%>" method="post">
     <input type="hidden" name="id" value="0">
@@ -47,15 +56,15 @@
     <input type="hidden" name="category" value="0">
     <header>
         <h1>
-            <input type="text" name="title" placeholder="请填入标题" class="title">
+            <input type="text" name="title" value="${blogList.title}" placeholder="请填入标题" class="title">
             <input type="submit" value="发表博客" class="sub">
         </h1>
     </header>
 
     <div id="test-editormd">
 
-                <textarea style="display:none;" name="content">
-</textarea>
+        <textarea style="display:none;" name="content">${blogList.content}
+        </textarea>
 
     </div>
 

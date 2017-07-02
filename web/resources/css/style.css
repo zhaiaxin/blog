@@ -17,7 +17,6 @@ body {
 h1, h2, h3 {
     margin: 0px;
     padding: 0px;
-    letter-spacing: -2px;
     text-transform: lowercase;
     font-weight: normal;
     color: #2F6BCF;
@@ -296,6 +295,7 @@ a:hover {
 }
 
 #sidebar {
+    float: left;
     display: inline-block;
     width: 230px;
     margin-right: 30px;
