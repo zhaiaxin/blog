@@ -55,19 +55,22 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
 //            case "listBlog":
 //                listBlog(request,response);
 //                break;
-//            case "queryByTitle":
-//                queryByTitle(request,response);
-//                break;
+            case "queryByTitle":
+                queryByTitle(request,response);
+                break;
             case "listByCategory":
                 listByCategory(request,response);
                 break;
-            case "toDetail":
-                toDetail(request,response);
-                break;
+//            case "toDetail":
+//                toDetail(request,response);
+//                break;
             case "listBlogPaging":
                 listBlogPaging(request,response);
                 break;
 
+            case "toAddOrUpdate":
+                toAddOrUpdate(request,response);
+                break;
         }
 
 
@@ -85,6 +88,7 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
         blog.setId(Integer.parseInt(request.getParameter("id")));
         blog.setTitle(request.getParameter("title"));
         blog.setAbstracts(request.getParameter("abstracts"));
+        blog.setHtml_content("html_content");
         blog.setContent(request.getParameter("content"));
         blog.setCategory(request.getParameter("category"));
 
@@ -92,7 +96,6 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
         RequestDispatcher rd = null;
 
 //        int id = Integer.parseInt(request.getParameter("id"));
-
 
         if(blogDao.newOrUpdateBlog(blog)){
             rd = request.getRequestDispatcher(WebContents.listBlogPaging);
@@ -136,20 +139,22 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
 //    }
 
 //
-//    private void queryByTitle(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
-//
-//        List<Blog> blogList = new ArrayList<>();
-//        BlogDao blogDao = new BlogDaoImpl();//实例化接口和实例化接口的实现？？？？？？？
-//        blogList = blogDao.queryByTitle(request.getParameter("title"));
-//        List categoryList = blogDao.listCategory();
-//
-//        request.setAttribute("blogList",blogList);
-//        request.setAttribute("categoryList",categoryList);
-//
-//        RequestDispatcher rd = null;
-//        rd = request.getRequestDispatcher("/pages/blog/index.jsp");
-//        rd.forward(request,response);
-//    }
+    private void queryByTitle(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
+
+
+        BlogDao blogDao = new BlogDaoImpl();
+        Blog blog = blogDao.selectByTitle(request.getParameter("title"));
+        List categoryList = blogDao.listCategory();
+
+
+
+        request.setAttribute("blog",blog);
+        request.setAttribute("categoryList",categoryList);
+
+        RequestDispatcher rd = null;
+        rd = request.getRequestDispatcher("/pages/blog/detail.jsp");
+        rd.forward(request,response);
+    }
 
     private void listByCategory(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
 
@@ -165,20 +170,20 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
         rd = request.getRequestDispatcher("/pages/blog/index.jsp");
         rd.forward(request,response);
     }
-
-    private void toDetail(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
-
-        List<Blog> blogList = new ArrayList<>();
-        BlogDao blogDao = new BlogDaoImpl();//实例化接口和实例化接口的实现？？？？？？？
-        blogList = blogDao.queryByTitle(request.getParameter("title"));
-
-        request.setAttribute("blogList",blogList);
-
-        RequestDispatcher rd = null;
-        rd = request.getRequestDispatcher("/pages/blog/detail.jsp");
-        rd.forward(request,response);
-
-    }
+//
+//    private void toDetail(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
+//
+//        List<Blog> blogList = new ArrayList<>();
+//        BlogDao blogDao = new BlogDaoImpl();//实例化接口和实例化接口的实现？？？？？？？
+//        blogList = blogDao.queryByTitle(request.getParameter("title"));
+//
+//        request.setAttribute("blogList",blogList);
+//
+//        RequestDispatcher rd = null;
+//        rd = request.getRequestDispatcher("/pages/blog/detail.jsp");
+//        rd.forward(request,response);
+//
+//    }
 
     private void listBlogPaging(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
 
@@ -256,6 +261,7 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
                 blog.setAbstracts(rs.getString("abstracts"));
                 blog.setContent(rs.getString("content"));
                 blog.setCategory(rs.getString("category"));
+                blog.setLast_modified_time(rs.getTimestamp("last_modified_time"));
                 blogList.add(blog);
             }
         } catch (SQLException e) {
@@ -292,6 +298,19 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
         rd = request.getRequestDispatcher("/pages/blog/index.jsp");
         rd.forward(request,response);
 
+    }
+
+    private void toAddOrUpdate(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
+
+        BlogDao blogDao = new BlogDaoImpl();
+
+        Blog blog = blogDao.selectByTitle(request.getParameter("title"));
+
+
+        request.setAttribute("blog",blog);
+        RequestDispatcher rd = null;
+        rd = request.getRequestDispatcher("/pages/blog/add.jsp");
+        rd.forward(request,response);
     }
 
 

@@ -8,7 +8,7 @@ package indi.zhaiaixn.blog.util;
  */
 public class WebContents {
 
-    //博客新增或修改
+    //博客新增或编辑
     public static final String newOrUpdateBlog = "/BlogServlet?state=newOrUpdateBlog";
 //    //博客列表
 //    public static final String listBlog = "/BlogServlet?state=listBlog";
@@ -18,8 +18,8 @@ public class WebContents {
     public static final String queryBlog = "/BlogServlet?state=queryByTitle";
 //    //博客分类查询
 //    public static final String listByCategory = "/BlogServlet?state=listByCategory";
-    //博客详情
-    public static final String toDetail = "/BlogServlet?state=toDetail";
+//    //博客详情
+//    public static final String toDetail = "/BlogServlet?state=toDetail";
     //博客删除
     public static final String delBlog = "/BlogServlet?state=delBlog";
     //博客分页
@@ -29,7 +29,8 @@ public class WebContents {
     public static final String login = "/UserServlet?state=login";
 
     //跳到add.jsp页面
-    public static final String toAddOrUpdate = "/pages/blog/add.jsp";
+    public static final String toAddOrUpdate = "/BlogServlet?state=toAddOrUpdate";
+
     //跳到toLogin.jsp页面
     public static final String toLogin = "/pages/user/login.jsp";
 

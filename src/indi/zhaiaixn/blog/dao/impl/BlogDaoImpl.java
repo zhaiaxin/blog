@@ -39,12 +39,13 @@ public class BlogDaoImpl implements BlogDao{
                 pstmt = connection.prepareStatement(BlogSql.newBlog);
             }else {
                 pstmt = connection.prepareStatement(BlogSql.updateBlog);
-                pstmt.setLong(5,blog.getId());
+                pstmt.setLong(6,blog.getId());
             }
             pstmt.setString(1,blog.getTitle());
             pstmt.setString(2,blog.getAbstracts());
-            pstmt.setString(3,blog.getContent());
-            pstmt.setString(4,blog.getCategory());
+            pstmt.setString(3,blog.getHtml_content());
+            pstmt.setString(4,blog.getContent());
+            pstmt.setString(5,blog.getCategory());
 
             if(pstmt.executeUpdate() > 0){
                 flag = true;
@@ -98,6 +99,7 @@ public class BlogDaoImpl implements BlogDao{
                 blog.setAbstracts(rs.getString("abstracts"));
                 blog.setContent(rs.getString("content"));
                 blog.setCategory(rs.getString("category"));
+                blog.setLast_modified_time(rs.getTimestamp("last_modified_time"));
                 blogList.add(blog);
             }
             connPool.release(rs,pstmt,connection);
@@ -107,6 +109,33 @@ public class BlogDaoImpl implements BlogDao{
         return blogList;
     }
 
+    public Blog selectByTitle(String title){
+
+        connection = null;
+        PreparedStatement pstmt = null;
+        Blog blog = null;
+        try{
+
+            this.connection = connPool.getConnection();
+            pstmt = connection.prepareStatement(BlogSql.queryByTitle);
+            pstmt.setString(1,title);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()){
+                blog = new Blog();
+                blog.setId(rs.getInt("id"));
+                blog.setTitle(rs.getString("title"));
+                blog.setAbstracts(rs.getString("abstracts"));
+                blog.setHtml_content(rs.getString("html_content"));
+                blog.setContent(rs.getString("content"));
+                blog.setCategory(rs.getString("category"));
+                blog.setLast_modified_time(rs.getTimestamp("last_modified_time"));
+            }
+            connPool.release(rs,pstmt,connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return blog;
+    }
 
     public List<Blog> listAll(){
 
@@ -126,6 +155,7 @@ public class BlogDaoImpl implements BlogDao{
                 blog.setAbstracts(rs.getString("abstracts"));
                 blog.setContent(rs.getString("content"));
                 blog.setCategory(rs.getString("category"));
+                blog.setLast_modified_time(rs.getTimestamp("last_modified_time"));
                 blogList.add(blog);
             }
             connPool.release(rs,pstmt,connection);
@@ -154,6 +184,7 @@ public class BlogDaoImpl implements BlogDao{
                 blog.setAbstracts(rs.getString("abstracts"));
                 blog.setContent(rs.getString("content"));
                 blog.setCategory(rs.getString("category"));
+                blog.setLast_modified_time(rs.getTimestamp("last_modified_time"));
                 blogList.add(blog);
             }
             connPool.release(rs,pstmt,connection);

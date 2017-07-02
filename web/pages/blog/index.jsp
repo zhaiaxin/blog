@@ -38,6 +38,7 @@
     </style>
 </head>
 <body>
+
 <div id="menu-wrapper">
     <div id="menu">
         <ul>
@@ -96,17 +97,17 @@
                 <div class="content">
                     <div class="post" style="width: 762px">
                         <h2 class="title">
-                            <a href="<%=WebContents.toDetail%>&title=${blog.title}">${blog.title}</a>
+                            <a href="<%=WebContents.queryBlog%>&title=${blog.title}">${blog.title}</a>
                             <div class="box">
-                                <i class="fa fa-bell-o"></i><a href="javascript:;">2017-01-01 13：30</a>
-                                <c:if test="${sessionScope.user} != null">
-                                <i class="fa fa-pencil"></i><a href="<%=WebContents.toAddOrUpdate%>&id=${blog.title};">编辑</a>
+                                <i class="fa fa-bell-o"></i><a href="javascript:;">${blog.last_modified_time}</a>
+                                <c:if test="${sessionScope.user != null}">
+                                <i class="fa fa-pencil-square-o"></i><a href="<%=WebContents.toAddOrUpdate%>&title=${blog.title}">编辑</a>
                                 <i class="fa fa-close"></i><a href="<%=WebContents.delBlog%>&id=${blog.id}">删除</a>
+
                                 </c:if>
                             </div>
 
                         </h2>
-                        <p class="meta"><span class="date">${blog.last_modified_time}</span>
 
                         <div class="entry">
                             ${blog.abstracts}
@@ -120,6 +121,7 @@
 
                 <div style="clear: both;">&nbsp;</div>
             </div>
+
         </div>
     </div>
     <!-- end #page -->
@@ -128,5 +130,59 @@
     <p>&copy; 2013 Sitename.com. | Photos by <a href="http://fotogrph.com/">Fotogrph</a> | Design by <a href="http://www.freecsstemplates.org/" rel="nofollow">FreeCSSTemplates.org</a>.</p>
 </div>
 <!-- end #footer -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        /*
+         var defaults = {
+         containerID: 'toTop', // fading element id
+         containerHoverID: 'toTopHover', // fading element hover id
+         scrollSpeed: 1200,
+         easingType: 'linear'
+         };
+         */
+        $().UItoTop({ easingType: 'easeOutQuart' });
+        var del = $(".article_delete");
+        del.click(function() {
+            $(this).parents(".blog-left-right").remove();
+        });
+        // 点击显示填写信息
+        var show = $(".fa-pencil");
+        show.click(function() {
+            $(".wrap").show();
+            $(".pop_edit").show();
+        });
+        // 点击隐藏填写信息
+        var hide = $(".fa-times");
+        hide.click(function() {
+            $(".wrap").hide();
+            $(".pop_edit").hide();
+        });
+        $(".ok").click(function() {
+            var user_name = $(".userName").val();
+            var sex = $(".sex_radio:checked").val();
+            var phone_number = $(".phone_number").val();
+            var industry = $(".industry").val();
+            var occupation = $(".occupation").val();
+            var introduction = $(".introduction").val();
+            $.ajax({
+                url: '', //需要填写地址！
+                type: 'GET',
+                dataType: 'html',
+                data: {
+                    userName: user_name,
+                    phoneNumber: phone_number,
+                    industry: industry,
+                    occupation: occupation,
+                    sex: sex,
+                    introduction: introduction
+                },
+                success: function () {
+                    console.log("成功了！")
+                }
+            })
+        });
+    });
+</script>
+
 </body>
 </html>

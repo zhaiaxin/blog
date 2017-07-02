@@ -29,9 +29,16 @@ public interface BlogDao {
     /**
      * 根据标题查找博客
      * @param title
-     * @return
+     * @return List<Blog>
      */
     public List<Blog> queryByTitle(String title);
+
+    /**
+     * 根据标题查找博客
+     * @param title
+     * @return Blog
+     */
+    public Blog selectByTitle(String title);
 
     /**
      * 列出所有的博客
