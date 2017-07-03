@@ -3,13 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4b961d4d-20c0-4caf-b838-bc52ec888d2f" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db_blog/db_blog.sql" afterPath="$PROJECT_DIR$/db_blog/db_blog.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/indi/zhaiaixn/blog/dao/BlogDao.java" afterPath="$PROJECT_DIR$/src/indi/zhaiaixn/blog/dao/BlogDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/indi/zhaiaixn/blog/dao/impl/BlogDaoImpl.java" afterPath="$PROJECT_DIR$/src/indi/zhaiaixn/blog/dao/impl/BlogDaoImpl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/indi/zhaiaixn/blog/servlet/BlogServlet.java" afterPath="$PROJECT_DIR$/src/indi/zhaiaixn/blog/servlet/BlogServlet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/WEB-INF/tags/page.tag" afterPath="$PROJECT_DIR$/web/WEB-INF/tags/page.tag" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/blog/detail.jsp" afterPath="$PROJECT_DIR$/web/pages/blog/detail.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/pages/blog/index.jsp" afterPath="$PROJECT_DIR$/web/pages/blog/index.jsp" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -58,10 +52,22 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="page.tag" pinned="false" current-in-tab="true">
+      <file leaf-file-name="BlogServlet.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/indi/zhaiaixn/blog/servlet/BlogServlet.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="494">
+              <caret line="204" column="50" lean-forward="false" selection-start-line="204" selection-start-column="50" selection-end-line="204" selection-end-column="50" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="page.tag" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/WEB-INF/tags/page.tag">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-577">
+            <state relative-caret-position="-548">
               <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding />
             </state>
@@ -163,9 +169,9 @@
         <option value="$PROJECT_DIR$/web/pages/blog/detail.jsp" />
         <option value="$PROJECT_DIR$/src/indi/zhaiaixn/blog/dao/BlogDao.java" />
         <option value="$PROJECT_DIR$/src/indi/zhaiaixn/blog/dao/impl/BlogDaoImpl.java" />
-        <option value="$PROJECT_DIR$/src/indi/zhaiaixn/blog/servlet/BlogServlet.java" />
         <option value="$PROJECT_DIR$/web/pages/blog/index.jsp" />
         <option value="$PROJECT_DIR$/web/WEB-INF/tags/page.tag" />
+        <option value="$PROJECT_DIR$/src/indi/zhaiaixn/blog/servlet/BlogServlet.java" />
       </list>
     </option>
   </component>
@@ -1243,7 +1249,7 @@
       <workItem from="1498958370164" duration="7073000" />
       <workItem from="1498995938792" duration="7899000" />
       <workItem from="1499041119962" duration="8949000" />
-      <workItem from="1499072321895" duration="7598000" />
+      <workItem from="1499072321895" duration="8363000" />
     </task>
     <task id="LOCAL-00001" summary="完成底部实现方法">
       <created>1497874292671</created>
@@ -1287,7 +1293,14 @@
       <option name="project" value="LOCAL" />
       <updated>1499048922311</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="完工">
+      <created>1499090272802</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1499090272802</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1323,7 +1336,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="141124000" />
+    <option name="totallyTimeSpent" value="141889000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -1415,7 +1428,8 @@
     <MESSAGE value="新增部分Servlet方法" />
     <MESSAGE value="今晚改bug！！！" />
     <MESSAGE value="就只差分页了" />
-    <option name="LAST_COMMIT_MESSAGE" value="就只差分页了" />
+    <MESSAGE value="完工" />
+    <option name="LAST_COMMIT_MESSAGE" value="完工" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1693,16 +1707,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/indi/zhaiaixn/blog/servlet/BlogServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="597">
-          <caret line="197" column="92" lean-forward="false" selection-start-line="197" selection-start-column="92" selection-end-line="197" selection-end-column="92" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/WEB-INF/web.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
@@ -1723,9 +1727,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/WEB-INF/tags/page.tag">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-577">
+        <state relative-caret-position="-548">
           <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/indi/zhaiaixn/blog/servlet/BlogServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="204" column="50" lean-forward="false" selection-start-line="204" selection-start-column="50" selection-end-line="204" selection-end-column="50" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

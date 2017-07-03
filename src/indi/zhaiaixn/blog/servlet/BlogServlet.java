@@ -185,7 +185,7 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
 
         request.setAttribute("categoryList",categoryList);
 
-        request.setAttribute("blogList",blogList);
+
 
 
         /*
@@ -201,6 +201,8 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
 
 
         }
+
+        request.setAttribute("blogList",blogList);
 
         request.setAttribute("pageIndex", Long.parseLong(pageIndex));
         request.setAttribute("pageSize", Long.parseLong(pageSize));
