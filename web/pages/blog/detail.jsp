@@ -8,12 +8,46 @@
     <title>详情页</title>
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700|Archivo+Narrow:400,700" rel="stylesheet" type="text/css">
     <link href="../../resources/css/style.css" rel="stylesheet" type="text/css" media="screen" />
+    <style>
+        table {
+            display: block;
+            width: 100%;
+            overflow: auto;
+            word-break: normal;
+            word-break: keep-all;
+        }
+         table th {
+            font-weight: bold;
+        }
+
+        table th,
+        .markdown-body table td {
+            padding: 6px 13px;
+            border: 1px solid #ddd;
+        }
+
+        table tr {
+            background-color: #fff;
+            border-top: 1px solid #ccc;
+        }
+
+        table tr:nth-child(2n) {
+            background-color: #f8f8f8;
+        }
+        table thead tr, table thead tr {
+            background-color: #F8F8F8;
+        }
+        .post{
+            background-color: #fff;
+        }
+    </style>
 </head>
 <body>
 <div id="menu-wrapper">
     <div id="menu">
         <ul>
-            <li class="current_page_item"><a href="/BlogServlet?state=listBlog">Blog</a></li>
+            <li class="current_page_item"><a href="<%=WebContents.listBlogPaging%>">Blog</a></li>
+            <c:if test="${sessionScope.user != null}"><li><a href="<%=WebContents.toAddOrUpdate%>">add</a></li></c:if>
             <li><a href="#">About</a></li>
             <li><a href="https://github.com/zhaiaxin">GitHub</a></li>
         </ul>
@@ -39,10 +73,9 @@
 
                 <!-- end #sidebar -->
                     <div id="content">
-                        <div class="post" style="width: 840px">
+                        <div class="post">
                             <div style="clear: both;">&nbsp;</div>
                             <div class="entry">
-                                    ${blog.abstracts}<hr>
                                         ${blog.html_content}
                             </div>
                         </div>

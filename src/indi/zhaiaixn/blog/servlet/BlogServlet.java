@@ -18,7 +18,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 /**
@@ -52,22 +51,18 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
             case "delBlog":
                 delBlog(request,response);
                 break;
-//            case "listBlog":
-//                listBlog(request,response);
-//                break;
             case "queryByTitle":
                 queryByTitle(request,response);
                 break;
+//            case "queryByCategoryOrTitle":
+//                queryByCategoryOrTitle(request,response);
+//                break;
             case "listByCategory":
                 listByCategory(request,response);
                 break;
-//            case "toDetail":
-//                toDetail(request,response);
-//                break;
             case "listBlogPaging":
                 listBlogPaging(request,response);
                 break;
-
             case "toAddOrUpdate":
                 toAddOrUpdate(request,response);
                 break;
@@ -85,17 +80,20 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
 //        }
 
         Blog blog = new Blog();
-        blog.setId(Integer.parseInt(request.getParameter("id")));
+        if(request.getParameter("id").equals("")){
+            blog.setId(0);
+        }else{
+            blog.setId(Integer.parseInt(request.getParameter("id")));
+        }
         blog.setTitle(request.getParameter("title"));
         blog.setAbstracts(request.getParameter("abstracts"));
-        blog.setHtml_content("html_content");
+        blog.setHtml_content(request.getParameter("html_content"));
         blog.setContent(request.getParameter("content"));
         blog.setCategory(request.getParameter("category"));
 
-        BlogDao blogDao = new BlogDaoImpl();//实例化接口和实例化接口的实现？？？？？？？
+        BlogDao blogDao = new BlogDaoImpl();
         RequestDispatcher rd = null;
 
-//        int id = Integer.parseInt(request.getParameter("id"));
 
         if(blogDao.newOrUpdateBlog(blog)){
             rd = request.getRequestDispatcher(WebContents.listBlogPaging);
@@ -124,21 +122,7 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
         }
     }
 
-//    private void listBlog(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
-//
-//        BlogDao blogDao = new BlogDaoImpl();//实例化接口和实例化接口的实现？？？？？？？
-//        List<Blog> blogList = blogDao.listAll();
-//        List categoryList = blogDao.listCategory();
-//
-//        request.setAttribute("blogList",blogList);
-//        request.setAttribute("categoryList",categoryList);
-//
-//        RequestDispatcher rd = null;
-//        rd = request.getRequestDispatcher("/pages/blog/index.jsp");
-//        rd.forward(request,response);
-//    }
 
-//
     private void queryByTitle(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
 
 
@@ -156,6 +140,7 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
         rd.forward(request,response);
     }
 
+
     private void listByCategory(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
 
         List<Blog> blogList = new ArrayList<>();
@@ -170,20 +155,7 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
         rd = request.getRequestDispatcher("/pages/blog/index.jsp");
         rd.forward(request,response);
     }
-//
-//    private void toDetail(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
-//
-//        List<Blog> blogList = new ArrayList<>();
-//        BlogDao blogDao = new BlogDaoImpl();//实例化接口和实例化接口的实现？？？？？？？
-//        blogList = blogDao.queryByTitle(request.getParameter("title"));
-//
-//        request.setAttribute("blogList",blogList);
-//
-//        RequestDispatcher rd = null;
-//        rd = request.getRequestDispatcher("/pages/blog/detail.jsp");
-//        rd.forward(request,response);
-//
-//    }
+
 
     private void listBlogPaging(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
 
@@ -274,13 +246,16 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
         request.setAttribute("categoryList",categoryList);
 
 
+        /*
+           通过目录或者标题进行搜索
+         */
         if(request.getParameter("category") != null){
 
-            blogList = blogDao.listByCategory(request.getParameter("category"));//通过目录进行查询
+            blogList = blogDao.listByCategory(request.getParameter("category"));
 
         }else if(request.getParameter("title") != null){
 
-            blogList = blogDao.queryByTitle(request.getParameter("title"));//通过标题进行查询
+            blogList = blogDao.queryByTitle(request.getParameter("title"));
 
 
         }
@@ -312,6 +287,5 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
         rd = request.getRequestDispatcher("/pages/blog/add.jsp");
         rd.forward(request,response);
     }
-
 
 }

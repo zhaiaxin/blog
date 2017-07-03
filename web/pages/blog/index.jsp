@@ -42,7 +42,8 @@
 <div id="menu-wrapper">
     <div id="menu">
         <ul>
-            <li class="current_page_item"><a href="/BlogServlet?state=listBlog">Blog</a></li>
+            <li class="current_page_item"><a href="<%=WebContents.listBlogPaging%>">Blog</a></li>
+            <c:if test="${sessionScope.user != null}"><li><a href="<%=WebContents.toAddOrUpdate%>">add</a></li></c:if>
             <li><a href="#">About</a></li>
             <li><a href="https://github.com/zhaiaxin">GitHub</a></li>
         </ul>
@@ -130,59 +131,7 @@
     <p>&copy; 2013 Sitename.com. | Photos by <a href="http://fotogrph.com/">Fotogrph</a> | Design by <a href="http://www.freecsstemplates.org/" rel="nofollow">FreeCSSTemplates.org</a>.</p>
 </div>
 <!-- end #footer -->
-<script type="text/javascript">
-    $(document).ready(function() {
-        /*
-         var defaults = {
-         containerID: 'toTop', // fading element id
-         containerHoverID: 'toTopHover', // fading element hover id
-         scrollSpeed: 1200,
-         easingType: 'linear'
-         };
-         */
-        $().UItoTop({ easingType: 'easeOutQuart' });
-        var del = $(".article_delete");
-        del.click(function() {
-            $(this).parents(".blog-left-right").remove();
-        });
-        // 点击显示填写信息
-        var show = $(".fa-pencil");
-        show.click(function() {
-            $(".wrap").show();
-            $(".pop_edit").show();
-        });
-        // 点击隐藏填写信息
-        var hide = $(".fa-times");
-        hide.click(function() {
-            $(".wrap").hide();
-            $(".pop_edit").hide();
-        });
-        $(".ok").click(function() {
-            var user_name = $(".userName").val();
-            var sex = $(".sex_radio:checked").val();
-            var phone_number = $(".phone_number").val();
-            var industry = $(".industry").val();
-            var occupation = $(".occupation").val();
-            var introduction = $(".introduction").val();
-            $.ajax({
-                url: '', //需要填写地址！
-                type: 'GET',
-                dataType: 'html',
-                data: {
-                    userName: user_name,
-                    phoneNumber: phone_number,
-                    industry: industry,
-                    occupation: occupation,
-                    sex: sex,
-                    introduction: introduction
-                },
-                success: function () {
-                    console.log("成功了！")
-                }
-            })
-        });
-    });
-</script>
+
 
 </body>
 </html>
