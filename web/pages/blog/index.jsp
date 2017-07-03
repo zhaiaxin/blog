@@ -63,6 +63,10 @@
 <div id="wrapper">
     <!-- end #header -->
     <div id="page">
+        <%--<form id="queryForm" action="${ctx}/a/listCategory" method="post">--%>
+            <%--栏目名称：<input type="text" name="name">--%>
+            <%--<input type="submit" value="查询"></input>--%>
+        <%--</form>--%>
         <div id="page-bgtop">
             <div id="page-bgbtm">
                 <div id="sidebar">
@@ -70,7 +74,7 @@
                         <li>
                             <h2>Search Here:</h2>
                             <div id="search" >
-                                <form action="<%=WebContents.listBlogPaging%>" method="post">
+                                <form id="queryForm" action="<%=WebContents.listBlogPaging%>" method="post">
                                     <div>
                                         <input type="text" name="title" id="search-text" placeholder="请输入博客标题" />
                                         <input type="submit" id="search-submit" value="" />

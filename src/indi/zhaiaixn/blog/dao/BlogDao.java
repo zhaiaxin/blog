@@ -59,11 +59,19 @@ public interface BlogDao {
      */
     public List listCategory();
 
-//    /**
-//     * 分页展示博客
-//     * @return
-//     */
-//    public List<Blog> listAllPageing(String pageIndex,String pageSize,int totalPage);
+    /**
+     * 总的页数
+     * @return
+     */
+    public Long totalPage(String pageSize);
+
+    /**
+     * 分页展示博客
+     * @return
+     */
+    public List<Blog> listAllPageing(String pageIndex,String pageSize);
+
+
 
 
 }

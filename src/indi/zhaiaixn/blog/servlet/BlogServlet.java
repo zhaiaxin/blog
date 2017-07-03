@@ -144,7 +144,7 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
     private void listByCategory(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
 
         List<Blog> blogList = new ArrayList<>();
-        BlogDao blogDao = new BlogDaoImpl();//实例化接口和实例化接口的实现？？？？？？？
+        BlogDao blogDao = new BlogDaoImpl();
         blogList = blogDao.listByCategory(request.getParameter("category"));
         List categoryList = blogDao.listCategory();
 
@@ -159,115 +159,52 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
 
     private void listBlogPaging(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
 
-//        // 获得当前页码数
-//        String pageIndex = request.getParameter("pageIndex");
-//        //获得每页显示的数量
-//        String pageSize=request.getParameter("pageSize");
-//
-//        int totalPage = 0;
-//
-//        List<Blog> blogList = new ArrayList<>();
-//        BlogDao blogDao = new BlogDaoImpl();//实例化接口和实例化接口的实现？？？？？？？
-//        blogList = blogDao.listAllPageing(pageIndex,pageSize,totalPage);
-//
-////        request.setAttribute("pageIndex", Long.parseLong(pageIndex));
-////        request.setAttribute("pageSize", Long.parseLong(pageSize));
-////        request.setAttribute("totalPage",totalPage);
-//
-//        RequestDispatcher rd = null;
-//        rd = request.getRequestDispatcher("/pages/blog/index.jsp");
-//        rd.forward(request,response);
-
-
         // 获得当前页码数
-        String pageIndex=request.getParameter("pageIndex");
-
+        String pageIndex = request.getParameter("pageIndex");
         //获得每页显示的数量
-        String pageSize=request.getParameter("pageSize");
+        String pageSize = request.getParameter("pageSize");
 
-        if(pageIndex==null||"".equals(pageIndex.trim())){//trim()去掉字符串首尾的空格
+
+        if(pageIndex == null||"".equals(pageIndex.trim())){//trim()去掉字符串首尾的空格
             pageIndex="1";
         }
 
-        if(pageSize==null||"".equals(pageSize.trim())){
+        if(pageSize == null||"".equals(pageSize.trim())){
             pageSize="3";
-        }
-
-        //数据库中所有数据的数量
-        int start =(Integer.parseInt(pageIndex)-1)*Integer.parseInt(pageSize);
-
-
-        /*
-        因为标签库page.tag中数据类型为long
-         */
-
-        //总的数据量
-        long count=0;
-        //总的页数
-        long totalPage=0;
-
-        List<Blog> blogList = new ArrayList<Blog>();
-
-        try{
-            Connection connection = ConnPool.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement(BlogSql.countBlog);
-            ResultSet rsCount = pstmt.executeQuery();
-
-            if(rsCount.next()){
-              count = rsCount.getLong("count");//获得总数据量
-            }
-
-            totalPage = count/Integer.parseInt(pageSize);
-
-            totalPage = count%Integer.parseInt(pageSize)>0?(totalPage+1):totalPage;
-
-            pstmt = connection.prepareStatement(BlogSql.listBlogPageing);//检索start+1到pageSize的博客
-            pstmt.setInt(1,start);
-            pstmt.setInt(2,Integer.parseInt(pageSize));
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()){
-
-                Blog blog = new Blog();
-                blog.setId(rs.getInt("id"));
-                blog.setTitle(rs.getString("title"));
-                blog.setAbstracts(rs.getString("abstracts"));
-                blog.setContent(rs.getString("content"));
-                blog.setCategory(rs.getString("category"));
-                blog.setLast_modified_time(rs.getTimestamp("last_modified_time"));
-                blogList.add(blog);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
 
 
         BlogDao blogDao = new BlogDaoImpl();
+
+        List<Blog> blogList = blogDao.listAllPageing(pageIndex,pageSize);
+
+        Long totalPage = blogDao.totalPage(pageSize);
+
+
         List categoryList = blogDao.listCategory();
+
         request.setAttribute("categoryList",categoryList);
+
+        request.setAttribute("blogList",blogList);
 
 
         /*
            通过目录或者标题进行搜索
          */
-        if(request.getParameter("category") != null){
+        if(request.getParameter("category") != null && request.getParameter("title") == null){
 
             blogList = blogDao.listByCategory(request.getParameter("category"));
 
-        }else if(request.getParameter("title") != null){
+        }else if(request.getParameter("title") != null && request.getParameter("category") == null){
 
             blogList = blogDao.queryByTitle(request.getParameter("title"));
 
 
         }
 
-
-        request.setAttribute("blogList",blogList);
-        request.setAttribute("categoryList",categoryList);
-
         request.setAttribute("pageIndex", Long.parseLong(pageIndex));
+        request.setAttribute("pageSize", Long.parseLong(pageSize));
         request.setAttribute("totalPage",totalPage);
-
-        request.setAttribute("blogList", blogList);
 
         RequestDispatcher rd = null;
         rd = request.getRequestDispatcher("/pages/blog/index.jsp");

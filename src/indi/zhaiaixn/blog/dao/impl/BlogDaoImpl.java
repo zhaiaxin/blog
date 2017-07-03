@@ -213,55 +213,67 @@ public class BlogDaoImpl implements BlogDao{
         return categoryList;
     }
 
-//    public List<Blog> listAllPageing(String pageIndex,String pageSize,int totalPage){
-//
-//        if(pageIndex==null||"".equals(pageIndex.trim())){//trim()去掉字符串首尾的空格
-//            pageIndex="1";
-//        }
-//
-//        if(pageSize==null||"".equals(pageSize.trim())){
-//            pageSize="5";
-//        }
-//        int start =(Integer.parseInt(pageIndex)-1)*Integer.parseInt(pageSize);
-//        //数据库中所有数据的数量
-//        int count=0;
-//        //总的页数
-//
-//
-//        List<Blog> blogList = new ArrayList<Blog>();
-//        PreparedStatement pstmt = null;
-//        Blog blog = null;
-//
-//        try{
-//            this.connection = connPool.getConnection();
-//            pstmt = connection.prepareStatement(BlogSql.countBlog);
-//            ResultSet rsCount = pstmt.executeQuery();
-//            while (rsCount.next()){
-//              count = rsCount.getInt("count");
-//            }
-//
-//            totalPage = count/Integer.parseInt(pageSize);//总页数=总记录数/每页的记录数
-//
-//            totalPage = count%Integer.parseInt(pageSize)>0?(totalPage+1):totalPage;//若有余数，则总页数加一；否则不变
-//
-//
-//            pstmt = connection.prepareStatement(BlogSql.listBlogPageing);
-//            pstmt.setInt(1,start);
-//            pstmt.setInt(2,Integer.parseInt(pageSize));
-//            ResultSet rs = pstmt.executeQuery();
-//            while (rs.next()){
-//                blog = new Blog();
-//                blog.setId(rs.getInt("id"));
-//                blog.setTitle(rs.getString("title"));
-//                blog.setAbstracts(rs.getString("abstracts"));
-//                blog.setContent(rs.getString("content"));
-//                blog.setCategory(rs.getString("category"));
-//                blogList.add(blog);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return blogList;
-//    }
+    public Long totalPage(String pageSize){
+
+        //总的数据量
+        long count=0;
+        //总的页数
+        long totalPage=0;
+
+        PreparedStatement pstmt = null;
+
+        try{
+            this.connection = connPool.getConnection();
+            pstmt = connection.prepareStatement(BlogSql.countBlog);
+            ResultSet rsCount = pstmt.executeQuery();
+            while (rsCount.next()){
+                count = rsCount.getInt("count");//获得总数据量
+            }
+
+            totalPage = count/Integer.parseInt(pageSize);//总页数=总记录数/每页的记录数
+
+            totalPage = count%Integer.parseInt(pageSize)>0?(totalPage+1):totalPage;//若有余数，则总页数加一；否则不变
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return totalPage;
+
+    }
+
+
+    public List<Blog> listAllPageing(String pageIndex,String pageSize){
+
+
+        //数据库检索从start
+        int start =(Integer.parseInt(pageIndex)-1)*Integer.parseInt(pageSize);
+
+        List<Blog> blogList = new ArrayList<Blog>();
+        PreparedStatement pstmt = null;
+        Blog blog = null;
+
+        try{
+            this.connection = connPool.getConnection();
+            pstmt = connection.prepareStatement(BlogSql.listBlogPageing);
+            pstmt.setInt(1,start);
+            pstmt.setInt(2,Integer.parseInt(pageSize));
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()){
+                blog = new Blog();
+                blog.setId(rs.getInt("id"));
+                blog.setTitle(rs.getString("title"));
+                blog.setAbstracts(rs.getString("abstracts"));
+                blog.setContent(rs.getString("content"));
+                blog.setCategory(rs.getString("category"));
+                blog.setLast_modified_time(rs.getTimestamp("last_modified_time"));
+                blogList.add(blog);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return blogList;
+    }
 }

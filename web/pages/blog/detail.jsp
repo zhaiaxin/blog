@@ -8,39 +8,8 @@
     <title>详情页</title>
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700|Archivo+Narrow:400,700" rel="stylesheet" type="text/css">
     <link href="../../resources/css/style.css" rel="stylesheet" type="text/css" media="screen" />
-    <style>
-        table {
-            display: block;
-            width: 100%;
-            overflow: auto;
-            word-break: normal;
-            word-break: keep-all;
-        }
-         table th {
-            font-weight: bold;
-        }
-
-        table th,
-        .markdown-body table td {
-            padding: 6px 13px;
-            border: 1px solid #ddd;
-        }
-
-        table tr {
-            background-color: #fff;
-            border-top: 1px solid #ccc;
-        }
-
-        table tr:nth-child(2n) {
-            background-color: #f8f8f8;
-        }
-        table thead tr, table thead tr {
-            background-color: #F8F8F8;
-        }
-        .post{
-            background-color: #fff;
-        }
-    </style>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/editormd/examples/css/style.css" />
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/editormd/css/editormd.css" />
 </head>
 <body>
 <div id="menu-wrapper">
@@ -73,7 +42,7 @@
 
                 <!-- end #sidebar -->
                     <div id="content">
-                        <div class="post">
+                        <div class="post markdown-body editormd-preview-container">
                             <div style="clear: both;">&nbsp;</div>
                             <div class="entry">
                                         ${blog.html_content}
@@ -95,5 +64,7 @@
     <p>&copy; 2013 Sitename.com. | Photos by <a href="http://fotogrph.com/">Fotogrph</a> | Design by <a href="http://www.freecsstemplates.org/" rel="nofollow">FreeCSSTemplates.org</a>.</p>
 </div>
 <!-- end #footer -->
+<script src="<%=request.getContextPath()%>/resources/editormd/examples/js/jquery.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/editormd/editormd.min.js"></script>
 </body>
 </html>

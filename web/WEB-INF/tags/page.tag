@@ -8,7 +8,6 @@
 <%
     long begin = Math.max(1, curIndex - pagerRange/2);
     long end = Math.min(begin + (pagerRange-1),totalPage);
-
     request.setAttribute("p_begin", begin);
     request.setAttribute("p_end", end);
 %>
@@ -18,7 +17,7 @@
         var queryForm = document.getElementById("queryForm");
         var action = queryForm.action;
         var pageSize = document.getElementById("p_pageSizeSelect").value;
-        action += "?pageIndex=" + pageIndex + "&pageSize=" + pageSize;
+        action += "&pageIndex=" + pageIndex + "&pageSize=" + pageSize;
 
         queryForm.action =action;
         queryForm.submit();
