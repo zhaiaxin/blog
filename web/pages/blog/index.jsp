@@ -38,7 +38,7 @@
     </style>
 </head>
 <body>
-
+${msg}
 <div id="menu-wrapper">
     <div id="menu">
         <ul>
@@ -102,7 +102,7 @@
                 <div class="content">
                     <div class="post" style="width: 762px">
                         <h2 class="title">
-                            <a href="<%=WebContents.queryBlog%>&title=${blog.title}">${blog.title}</a>
+                            <a href="<%=WebContents.selectBlog%>&title=${blog.title}">${blog.title}</a>
                             <div class="box">
                                 <i class="fa fa-bell-o"></i><a href="javascript:;">${blog.last_modified_time}</a>
                                 <c:if test="${sessionScope.user != null}">

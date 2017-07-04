@@ -28,7 +28,7 @@
         var pageIndexInt = parseInt(pageIndex);
         var totalPage = ${totalPage};
 
-        if(pageIndexInt>0 && pageIndexInt<totalPage){
+        if(pageIndexInt>0 && pageIndexInt<=totalPage){
             gotoPage(pageIndex);
         }
         else{

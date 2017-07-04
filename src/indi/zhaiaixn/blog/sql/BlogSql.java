@@ -20,7 +20,7 @@ public class BlogSql {
     //列出所有的博客
     public static final String listAll = "SELECT * FROM t_blog";
     //根据分类查找博客
-    public static final String listByCategory = "SELECT * FROM t_blog WHERE category = ?";
+    public static final String listPageingByCategory = "SELECT * FROM t_blog WHERE category = ? limit ?,?";
     //列出所有的目录
     public static final String listCategory = "SELECT DISTINCT category FROM t_blog";
     //统计博客数量

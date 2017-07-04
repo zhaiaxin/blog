@@ -3,20 +3,13 @@ package indi.zhaiaixn.blog.servlet;
 import indi.zhaiaixn.blog.dao.BlogDao;
 import indi.zhaiaixn.blog.dao.impl.BlogDaoImpl;
 import indi.zhaiaixn.blog.entity.Blog;
-import indi.zhaiaixn.blog.sql.BlogSql;
-import indi.zhaiaixn.blog.util.ConnPool;
 import indi.zhaiaixn.blog.util.WebContents;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,15 +44,15 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
             case "delBlog":
                 delBlog(request,response);
                 break;
-            case "queryByTitle":
-                queryByTitle(request,response);
+            case "selectByTitle":
+                selectByTitle(request,response);
                 break;
 //            case "queryByCategoryOrTitle":
 //                queryByCategoryOrTitle(request,response);
 //                break;
-            case "listByCategory":
-                listByCategory(request,response);
-                break;
+//            case "listByCategory":
+//                listByCategory(request,response);
+//                break;
             case "listBlogPaging":
                 listBlogPaging(request,response);
                 break;
@@ -71,6 +64,13 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
 
     }
 
+    /**
+     * 新增或删除博客
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     private void newOrUpdateBlog(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
         //获取request中所有的参数名及参数值
 //        Enumeration enu=request.getParameterNames();
@@ -105,11 +105,18 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
         }
     }
 
+    /**
+     * 删除博客
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     private void delBlog(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
 
         int id = Integer.parseInt(request.getParameter("id"));
 
-        BlogDao blogDao = new BlogDaoImpl();//实例化接口和实例化接口的实现？？？？？？？
+        BlogDao blogDao = new BlogDaoImpl();
         RequestDispatcher rd = null;
 
         if(blogDao.delBlog(id)){
@@ -123,14 +130,19 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
     }
 
 
-    private void queryByTitle(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
+    /**
+     * 通过标题，进入详情页
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void selectByTitle(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
 
 
         BlogDao blogDao = new BlogDaoImpl();
         Blog blog = blogDao.selectByTitle(request.getParameter("title"));
         List categoryList = blogDao.listCategory();
-
-
 
         request.setAttribute("blog",blog);
         request.setAttribute("categoryList",categoryList);
@@ -141,21 +153,6 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
     }
 
 
-    private void listByCategory(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
-
-        List<Blog> blogList = new ArrayList<>();
-        BlogDao blogDao = new BlogDaoImpl();
-        blogList = blogDao.listByCategory(request.getParameter("category"));
-        List categoryList = blogDao.listCategory();
-
-        request.setAttribute("blogList",blogList);
-        request.setAttribute("categoryList",categoryList);
-
-        RequestDispatcher rd = null;
-        rd = request.getRequestDispatcher("/pages/blog/index.jsp");
-        rd.forward(request,response);
-    }
-
 
     private void listBlogPaging(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
 
@@ -163,6 +160,10 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
         String pageIndex = request.getParameter("pageIndex");
         //获得每页显示的数量
         String pageSize = request.getParameter("pageSize");
+        //获得博客的标题
+        String title = request.getParameter("title");
+        //获得博客的分类
+        String category = request.getParameter("category");
 
 
         if(pageIndex == null||"".equals(pageIndex.trim())){//trim()去掉字符串首尾的空格
@@ -176,33 +177,17 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
 
         BlogDao blogDao = new BlogDaoImpl();
 
-        List<Blog> blogList = blogDao.listAllPageing(pageIndex,pageSize);
+        List<Blog> blogList = blogDao.listAllPageing(pageIndex,pageSize,title,category);
 
-        Long totalPage = blogDao.totalPage(pageSize);
+        Long totalPage = blogDao.totalPage(pageSize,title,category);
 
 
         List categoryList = blogDao.listCategory();
 
         request.setAttribute("categoryList",categoryList);
 
-
-
-
-        /*
-           通过目录或者标题进行搜索
-         */
-        if(request.getParameter("category") != null && request.getParameter("title") == null){
-
-            blogList = blogDao.listByCategory(request.getParameter("category"));
-
-        }else if(request.getParameter("title") != null && request.getParameter("category") == null){
-
-            blogList = blogDao.queryByTitle(request.getParameter("title"));
-
-
-        }
-
         request.setAttribute("blogList",blogList);
+
 
         request.setAttribute("pageIndex", Long.parseLong(pageIndex));
         request.setAttribute("pageSize", Long.parseLong(pageSize));
@@ -214,12 +199,12 @@ public class BlogServlet extends javax.servlet.http.HttpServlet {
 
     }
 
+
     private void toAddOrUpdate(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
 
         BlogDao blogDao = new BlogDaoImpl();
 
         Blog blog = blogDao.selectByTitle(request.getParameter("title"));
-
 
         request.setAttribute("blog",blog);
         RequestDispatcher rd = null;

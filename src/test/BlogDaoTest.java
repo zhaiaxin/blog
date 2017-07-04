@@ -33,25 +33,25 @@ public class BlogDaoTest {
         System.out.println(blogDao.delBlog(3));
     }
 
-    @Test
-    public void testQueryByTitle(){
-        System.out.println(blogDao.queryByTitle("java"));
-    }
+//    @Test
+//    public void testQueryByTitle(){
+//        System.out.println(blogDao.queryByTitle("java"));
+//    }
 
     @Test
     public void testSelectByTitle(){
         System.out.println(blogDao.selectByTitle("java从入门到放弃"));
     }
 
-    @Test
-    public void testListAll(){
-        System.out.println(blogDao.listAll());
-    }
+//    @Test
+//    public void testListAll(){
+//        System.out.println(blogDao.listAll());
+//    }
 
-    @Test
-    public void testListByCategory(){
-        System.out.println(blogDao.listByCategory("java"));
-    }
+//    @Test
+//    public void testListByCategory(){
+//        System.out.println(blogDao.listByCategory("java"));
+//    }
 
     @Test
     public void testListCategory(){

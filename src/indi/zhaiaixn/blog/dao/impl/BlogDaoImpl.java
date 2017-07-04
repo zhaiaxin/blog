@@ -80,34 +80,6 @@ public class BlogDaoImpl implements BlogDao{
     }
 
 
-    public List<Blog> queryByTitle(String title){
-
-        connection = null;
-        PreparedStatement pstmt = null;
-        Blog blog = null;
-        List<Blog> blogList = new ArrayList<Blog>();
-        try{
-
-            this.connection = connPool.getConnection();
-            pstmt = connection.prepareStatement("SELECT * FROM t_blog WHERE title LIKE '%" + title + "%'");
-//            pstmt.setString(1,title);
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()){
-                blog = new Blog();
-                blog.setId(rs.getInt("id"));
-                blog.setTitle(rs.getString("title"));
-                blog.setAbstracts(rs.getString("abstracts"));
-                blog.setContent(rs.getString("content"));
-                blog.setCategory(rs.getString("category"));
-                blog.setLast_modified_time(rs.getTimestamp("last_modified_time"));
-                blogList.add(blog);
-            }
-            connPool.release(rs,pstmt,connection);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return blogList;
-    }
 
     public Blog selectByTitle(String title){
 
@@ -137,62 +109,6 @@ public class BlogDaoImpl implements BlogDao{
         return blog;
     }
 
-    public List<Blog> listAll(){
-
-        List<Blog> blogList = new ArrayList<Blog>();
-        connection = null;
-        PreparedStatement pstmt = null;
-        Blog blog = null;
-
-        try{
-            this.connection = connPool.getConnection();
-            pstmt = connection.prepareStatement(BlogSql.listAll);
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()){
-                blog = new Blog();
-                blog.setId(rs.getInt("id"));
-                blog.setTitle(rs.getString("title"));
-                blog.setAbstracts(rs.getString("abstracts"));
-                blog.setContent(rs.getString("content"));
-                blog.setCategory(rs.getString("category"));
-                blog.setLast_modified_time(rs.getTimestamp("last_modified_time"));
-                blogList.add(blog);
-            }
-            connPool.release(rs,pstmt,connection);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return blogList;
-    }
-
-    public List<Blog> listByCategory(String category){
-
-        List<Blog> blogList = new ArrayList<Blog>();
-        connection = null;
-        PreparedStatement pstmt = null;
-        Blog blog = null;
-
-        try{
-            this.connection = connPool.getConnection();
-            pstmt = connection.prepareStatement(BlogSql.listByCategory);
-            pstmt.setString(1,category);
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()){
-                blog = new Blog();
-                blog.setId(rs.getInt("id"));
-                blog.setTitle(rs.getString("title"));
-                blog.setAbstracts(rs.getString("abstracts"));
-                blog.setContent(rs.getString("content"));
-                blog.setCategory(rs.getString("category"));
-                blog.setLast_modified_time(rs.getTimestamp("last_modified_time"));
-                blogList.add(blog);
-            }
-            connPool.release(rs,pstmt,connection);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return blogList;
-    }
 
     public List listCategory(){
 
@@ -213,7 +129,7 @@ public class BlogDaoImpl implements BlogDao{
         return categoryList;
     }
 
-    public Long totalPage(String pageSize){
+    public Long totalPage(String pageSize,String title,String category){
 
         //总的数据量
         long count=0;
@@ -224,7 +140,14 @@ public class BlogDaoImpl implements BlogDao{
 
         try{
             this.connection = connPool.getConnection();
-            pstmt = connection.prepareStatement(BlogSql.countBlog);
+            if(title != null && category == null){//根据标题进行查找
+                pstmt = connection.prepareStatement(BlogSql.countBlog + " WHERE title LIKE '%" + title + "%'");
+            }else if(category != null && title == null){//根据分类进行查找
+                pstmt = connection.prepareStatement(BlogSql.countBlog + " WHERE category = ?"  );
+                pstmt.setString(1,category);
+            }else {
+                pstmt = connection.prepareStatement(BlogSql.countBlog);
+            }
             ResultSet rsCount = pstmt.executeQuery();
             while (rsCount.next()){
                 count = rsCount.getInt("count");//获得总数据量
@@ -243,8 +166,7 @@ public class BlogDaoImpl implements BlogDao{
     }
 
 
-    public List<Blog> listAllPageing(String pageIndex,String pageSize){
-
+    public List<Blog> listAllPageing(String pageIndex,String pageSize,String title,String category ){
 
         //数据库检索从start
         int start =(Integer.parseInt(pageIndex)-1)*Integer.parseInt(pageSize);
@@ -255,9 +177,21 @@ public class BlogDaoImpl implements BlogDao{
 
         try{
             this.connection = connPool.getConnection();
-            pstmt = connection.prepareStatement(BlogSql.listBlogPageing);
-            pstmt.setInt(1,start);
-            pstmt.setInt(2,Integer.parseInt(pageSize));
+            if(title != null && category == null){//根据标题进行查找
+                pstmt = connection.prepareStatement("SELECT * FROM t_blog WHERE title LIKE '%" + title + "%' limit ?,?");
+                pstmt.setInt(1,start);
+                pstmt.setInt(2,Integer.parseInt(pageSize));
+            }else if (category != null && title == null){//根据分类进行查找
+                pstmt = connection.prepareStatement(BlogSql.listPageingByCategory);
+                pstmt.setString(1,category);
+                pstmt.setInt(2,start);
+                pstmt.setInt(3,Integer.parseInt(pageSize));
+            }else {
+                pstmt = connection.prepareStatement(BlogSql.listBlogPageing);
+                pstmt.setInt(1,start);
+                pstmt.setInt(2,Integer.parseInt(pageSize));
+            }
+
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()){

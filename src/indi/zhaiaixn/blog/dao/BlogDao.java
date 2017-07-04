@@ -13,7 +13,7 @@ import java.util.List;
 public interface BlogDao {
 
     /**
-     * 新增一篇博客
+     * 新增或修改一篇博客
      * @param blog
      * @return
      */
@@ -26,12 +26,6 @@ public interface BlogDao {
      */
     public boolean delBlog(int id);
 
-    /**
-     * 根据标题查找博客
-     * @param title
-     * @return List<Blog>
-     */
-    public List<Blog> queryByTitle(String title);
 
     /**
      * 根据标题查找博客
@@ -40,18 +34,6 @@ public interface BlogDao {
      */
     public Blog selectByTitle(String title);
 
-    /**
-     * 列出所有的博客
-     * @return
-     */
-    public List<Blog> listAll();
-
-    /**
-     * 根据分类查找博客
-     * @param category
-     * @return
-     */
-    public List<Blog> listByCategory(String category);
 
     /**
      * 列出所有的目录
@@ -63,13 +45,13 @@ public interface BlogDao {
      * 总的页数
      * @return
      */
-    public Long totalPage(String pageSize);
+    public Long totalPage(String pageSize,String title,String category);
 
     /**
      * 分页展示博客
      * @return
      */
-    public List<Blog> listAllPageing(String pageIndex,String pageSize);
+    public List<Blog> listAllPageing(String pageIndex,String pageSize,String title,String category);
 
 
 
